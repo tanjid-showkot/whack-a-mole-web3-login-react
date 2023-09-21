@@ -26,7 +26,17 @@ const Game = () => {
             setTimer(timeLeft--);
             if (timeLeft === 0) {
                 clearInterval(interval);
-                alert(`Game Over! Your Score is ${score}`);
+                setTimer('Time Out');
+                document.querySelector('.board').style.display = 'none';
+                document.querySelector('.box').style.display = 'none';
+                document.querySelector("body").style.cursor = "default";
+                document.querySelector('.finalScore').style.display = 'block';
+                document.querySelector('.restartBtn').style.display = 'block';
+                document.querySelector('.restartBtn').addEventListener('click', () => {
+                    window.location.reload();
+                })
+                document.querySelector('.cursor').style.display = 'none';
+
             }
         }, 1000);
 
@@ -46,11 +56,11 @@ const Game = () => {
     const whack = (index) => {
         const newHoles = [...holes];
         setImag(moleWhaked)
-        setScore(score + 1);
+        setScore(score + 10);
         setTimeout(() => {
+            setImag(mole)
             newHoles[index].status = false;
             setHoles(newHoles);
-            setImag(mole)
         }, 500);
 
 
@@ -102,6 +112,10 @@ const Game = () => {
                     Time Left : <span> {timer} </span> <span> sec </span>
                 </h3>
             </div>
+            <div className="finalScore">
+                <h1>Final Score : <span>{score}</span></h1>
+            </div>
+            <button className="restartBtn">Restart</button>
 
             <div className="board">
                 {
