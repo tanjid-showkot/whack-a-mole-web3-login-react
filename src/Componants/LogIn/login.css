@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Comic Sans MS, cursive;
 }
 
 body {
@@ -16,22 +15,24 @@ body {
     overflow: hidden;
 }
 
-button {
+.loginBtn {
     background-color: #ff5733;
     color: #fff;
+    width: 410px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     border: none;
     border-radius: 5px;
     outline: 2px solid #ff5733;
     outline-offset: 10px;
-
-    padding: 20px 80px;
+    padding: 20px 10px;
     font-weight: 700;
     font-size: 2.2rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-button:hover {
+.loginBtn:hover {
     background-color: #fff;
     color: #ff5733;
     outline: 2px solid #fff;
