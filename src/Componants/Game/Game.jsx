@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import mole from '../../assets/mole.png'
 import moleWhaked from '../../assets/mole-whacked.png'
 import sound from '../../assets/smash.mp3'

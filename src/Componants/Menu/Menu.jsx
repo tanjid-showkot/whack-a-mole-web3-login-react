@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './menu.css'
 import Game from '../Game/Game';
 import LeaderBoard from '../LeaderBoard/LeaderBoard';

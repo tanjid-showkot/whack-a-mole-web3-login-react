@@ -1,4 +1,4 @@
-import React from 'react';
+// Removed unused import statement
 import './style.css'
 
 const LeaderBoard = () => {
