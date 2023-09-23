@@ -37,7 +37,7 @@ const LogIn = () => {
             {
                 connection && connection.isConnected ?
                     <Menu
-                        connection={connection}
+                        wallet={connection}
                     ></Menu> :
                     <button
                         onClick={async () => {

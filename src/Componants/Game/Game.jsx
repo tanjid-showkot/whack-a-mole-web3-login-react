@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import mole from '../../assets/mole.png'
 import moleWhaked from '../../assets/mole-whacked.png'
+import sound from '../../assets/smash.mp3'
+import useSound from 'use-sound';
 import './style.css'
 
 const Game = () => {
+    const [play] = useSound(sound);
+
     let timeLeft = 30;
     const [imag, setImag] = useState(mole)
     const [timer, setTimer] = useState(timeLeft);
@@ -21,7 +25,8 @@ const Game = () => {
     ]);
 
 
-    function intervals() {
+
+    const intervals = () => {
         const interval = setInterval(() => {
             setTimer(timeLeft--);
             if (timeLeft === 0) {
@@ -56,6 +61,9 @@ const Game = () => {
     const whack = (index) => {
         const newHoles = [...holes];
         setImag(moleWhaked)
+        play();
+
+
         setScore(score + 10);
         setTimeout(() => {
             setImag(mole)
@@ -116,6 +124,7 @@ const Game = () => {
                 <h1>Final Score : <span>{score}</span></h1>
             </div>
             <button className="restartBtn">Restart</button>
+
 
             <div className="board">
                 {
