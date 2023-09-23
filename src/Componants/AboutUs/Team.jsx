@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Team = (props) => {
-    const { name, img, intake, section, Position } = props.member
+    const { name, img, Position } = props.member
     return (
         <div>
             <div className="card">
