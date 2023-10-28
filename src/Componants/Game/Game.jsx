@@ -10,6 +10,7 @@ const Game = () => {
 
     let timeLeft = 30;
     const [imag, setImag] = useState(mole)
+    const [user, setuser] = useState([]);
     const [timer, setTimer] = useState(timeLeft);
     const [score, setScore] = useState(0);
     const [holes, setHoles] = useState([
@@ -23,6 +24,15 @@ const Game = () => {
         { id: 7, status: false },
         { id: 8, status: false }
     ]);
+    useEffect(() => {
+        fetch('http://localhost:5000/multi')
+            .then(res => res.json())
+            .then(data => {
+                setuser(data)
+            }
+            );
+
+    }, [score])
 
 
 
@@ -34,17 +44,53 @@ const Game = () => {
                 setTimer('Time Out');
                 document.querySelector('.board').style.display = 'none';
                 document.querySelector('.box').style.display = 'none';
+                document.querySelector('.user').style.display = 'none';
                 document.querySelector("body").style.cursor = "default";
                 document.querySelector('.finalScore').style.display = 'block';
                 document.querySelector('.restartBtn').style.display = 'block';
-                document.querySelector('.restartBtn').addEventListener('click', () => {
-                    window.location.reload();
-                })
                 document.querySelector('.cursor').style.display = 'none';
 
             }
         }, 1000);
 
+
+    }
+
+
+
+
+
+    const handleRestart = () => {
+        const userid = JSON.parse(localStorage.getItem('userid'))
+        const findUser = user.find(element => element.userid === userid)
+
+
+        fetch(`http://localhost:5000/multi/${findUser._id}`, {
+            method: 'DELETE'
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+            });
+
+
+        window.location.reload();
+
+    }
+    const userscore = () => {
+        setScore(score + 10);
+        const userid = JSON.parse(localStorage.getItem('userid'))
+        const findUser = user.find(element => element.userid === userid)
+        fetch(`http://localhost:5000/multi/${findUser._id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ score: score })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            });
 
     }
 
@@ -64,7 +110,7 @@ const Game = () => {
         play();
 
 
-        setScore(score + 10);
+        userscore();
         setTimeout(() => {
             setImag(mole)
             newHoles[index].status = false;
@@ -87,7 +133,7 @@ const Game = () => {
 
 
 
-
+    document.querySelector('.logo').style.display = 'none';
 
     window.addEventListener('mousemove', (e) => {
         let cursor = document.querySelector('.cursor')
@@ -120,10 +166,30 @@ const Game = () => {
                     Time Left : <span> {timer} </span> <span> sec </span>
                 </h3>
             </div>
-            <div className="finalScore">
-                <h1>Final Score : <span>{score}</span></h1>
+            <div className='user'>
+                {
+                    user.map((users) => (
+                        <h1> <span className='userwal' >{users.userid}</span> <span className='scores'> {users.score} </span> </h1>
+
+
+                    ))
+
+                }
+
+
             </div>
-            <button className="restartBtn">Restart</button>
+            <div className="finalScore">
+                {
+                    user.map((users) => (
+                        <h1> <span className='userwal' >{users.userid}</span> <span className='scores'> {users.score} </span> </h1>
+
+
+                    ))
+
+                }
+
+            </div>
+            <button onClick={handleRestart} className="restartBtn">Restart</button>
 
 
             <div className="board">

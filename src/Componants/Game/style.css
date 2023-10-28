@@ -15,6 +15,15 @@ body {
     overflow: hidden;
 }
 
+.userwal {
+    overflow: hidden;
+    position: absolute;
+    text-overflow: ellipsis;
+    border: 1px solid transparent;
+    width: 200px;
+
+
+}
 
 
 .box {
@@ -23,6 +32,21 @@ body {
     left: 10px;
     border: 1px solid #fff;
     padding: 0.8rem;
+}
+
+.user {
+    position: absolute;
+    left: 10px;
+    border: 1px solid #fff;
+    padding: 0.8rem;
+    width: 400px;
+
+}
+
+.scores {
+    margin-left: 250px;
+
+
 }
 
 h3 {

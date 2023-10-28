@@ -3,6 +3,7 @@ import './menu.css'
 import Game from '../Game/Game';
 import LeaderBoard from '../LeaderBoard/LeaderBoard';
 import AboutUs from '../AboutUs/AboutUs';
+import Loading from '../Loading/Loading';
 
 
 const Menu = (props) => {
@@ -12,6 +13,22 @@ const Menu = (props) => {
     const [leaderboard, setLeaderboard] = useState(false);
     const [aboutUs, setAboutus] = useState(false);
     const nevigatetogame = () => {
+        const user = { userid: connection.account.address, score: 0 };
+
+
+        fetch('http://localhost:5000/multi', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+            });
+
+
         setGame(true);
     }
     const nevigatetoleaderboard = () => {
@@ -34,7 +51,7 @@ const Menu = (props) => {
                     className='walAdd'>{connection.account.address}</h1>
             </div>
             {
-                game ? <Game></Game> : leaderboard ? <LeaderBoard></LeaderBoard> : aboutUs ? <AboutUs></AboutUs> :
+                game ? <Loading></Loading> : leaderboard ? <LeaderBoard></LeaderBoard> : aboutUs ? <AboutUs></AboutUs> :
                     (
                         (<div className="button-div">
                             <button onClick={nevigatetogame} className="button">Start</button>
