@@ -5,14 +5,18 @@ import sound from '../../assets/smash.mp3'
 import useSound from 'use-sound';
 import './style.css'
 
-const Game = () => {
+const Game = (props) => {
+    const connection = props.wallet;
     const [play] = useSound(sound);
 
     let timeLeft = 30;
     const [imag, setImag] = useState(mole)
     const [user, setuser] = useState([]);
+    const [userid, setuserid] = useState([]);
     const [timer, setTimer] = useState(timeLeft);
-    const [score, setScore] = useState(0);
+    const [Score, setScore] = useState(0);
+    const [signature, setSignature] = useState();
+
     const [holes, setHoles] = useState([
         { id: 0, status: false },
         { id: 1, status: false },
@@ -25,14 +29,77 @@ const Game = () => {
         { id: 8, status: false }
     ]);
     useEffect(() => {
-        fetch('http://localhost:5000/multi')
+        fetch('https://whack-a-mole-server.vercel.app/multi')
             .then(res => res.json())
             .then(data => {
                 setuser(data)
             }
             );
 
-    }, [score])
+    }, [Score])
+    useEffect(() => {
+        fetch('https://whack-a-mole-server.vercel.app/userdata')
+            .then(res => res.json())
+            .then(data => {
+                setuserid(data)
+                console.log(userid)
+            });
+
+    }, [])
+    const signMassage = async () => {
+        const sig = await connection.account.signMessage({
+            domain: {
+                name: "Whack a mole",
+                chainId: connection.chainId,
+                version: "0.0.1",
+            },
+            types: {
+                StarkNetDomain: [
+                    { name: "name", type: "felt" },
+                    { name: "chainId", type: "felt" },
+                    { name: "version", type: "felt" },
+                ],
+                Message: [{ name: "message", type: "felt" }],
+            },
+            primaryType: "Message",
+            message: {
+                message: Score,
+            },
+        });
+
+        setSignature(sig);
+        console.log(sig);
+
+    }
+
+
+
+    const chekScore = () => {
+        const userids = JSON.parse(localStorage.getItem('userid'))
+        const findUser = userid.find(element => element.userid === userids)
+        if (findUser.score < Score) {
+            signMassage();
+            fetch(`https://whack-a-mole-server.vercel.app/userdata/${findUser._id}`, {
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify({ score: Score })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                });
+        }
+    }
+
+
+
+
+
+
+
 
 
 
@@ -50,6 +117,8 @@ const Game = () => {
                 document.querySelector('.restartBtn').style.display = 'block';
                 document.querySelector('.cursor').style.display = 'none';
 
+                chekScore();
+
             }
         }, 1000);
 
@@ -65,7 +134,7 @@ const Game = () => {
         const findUser = user.find(element => element.userid === userid)
 
 
-        fetch(`http://localhost:5000/multi/${findUser._id}`, {
+        fetch(`https://whack-a-mole-server.vercel.app/multi/${findUser._id}`, {
             method: 'DELETE'
         }).then(res => res.json())
             .then(data => {
@@ -77,19 +146,19 @@ const Game = () => {
 
     }
     const userscore = () => {
-        setScore(score + 10);
+        setScore(Score + 10);
         const userid = JSON.parse(localStorage.getItem('userid'))
         const findUser = user.find(element => element.userid === userid)
-        fetch(`http://localhost:5000/multi/${findUser._id}`, {
+        fetch(`https://whack-a-mole-server.vercel.app/multi/${findUser._id}`, {
             method: 'PATCH',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
             },
-            body: JSON.stringify({ score: score })
+            body: JSON.stringify({ score: Score })
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
             });
 
     }
@@ -161,7 +230,7 @@ const Game = () => {
     return (
         <div>
             <div className="box">
-                <h3 className="score">Score : <span>{score}</span></h3>
+                <h3 className="score">Score : <span>{Score}</span></h3>
                 <h3 className="countdown">
                     Time Left : <span> {timer} </span> <span> sec </span>
                 </h3>

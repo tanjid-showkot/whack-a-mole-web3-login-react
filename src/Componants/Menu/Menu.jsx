@@ -9,6 +9,7 @@ import Loading from '../Loading/Loading';
 const Menu = (props) => {
     // eslint-disable-next-line react/prop-types
     const connection = props.wallet;
+    const user = props.user;
     const [game, setGame] = useState(false);
     const [leaderboard, setLeaderboard] = useState(false);
     const [aboutUs, setAboutus] = useState(false);
@@ -16,7 +17,7 @@ const Menu = (props) => {
         const user = { userid: connection.account.address, score: 0 };
 
 
-        fetch('http://localhost:5000/multi', {
+        fetch('https://whack-a-mole-server.vercel.app/multi', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -25,7 +26,6 @@ const Menu = (props) => {
 
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
             });
 
 
@@ -51,7 +51,12 @@ const Menu = (props) => {
                     className='walAdd'>{connection.account.address}</h1>
             </div>
             {
-                game ? <Loading></Loading> : leaderboard ? <LeaderBoard></LeaderBoard> : aboutUs ? <AboutUs></AboutUs> :
+                game ? <Loading
+                    wallet={connection}
+                ></Loading> : leaderboard ? <LeaderBoard
+                    wallet={connection}
+                    user={user}
+                ></LeaderBoard> : aboutUs ? <AboutUs></AboutUs> :
                     (
                         (<div className="button-div">
                             <button onClick={nevigatetogame} className="button">Start</button>

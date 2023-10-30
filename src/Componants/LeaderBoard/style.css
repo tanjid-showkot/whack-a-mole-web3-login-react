@@ -54,3 +54,32 @@ a {
 
     }
 }
+
+
+.leaderboard {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #fff;
+    width: 400px;
+}
+
+.leaderboard h1 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+
+
+
+}
+
+.scores {
+    margin-left: 300px;
+}
+
+.userwall {
+    overflow: hidden;
+    position: absolute;
+    text-overflow: ellipsis;
+    border: 1px solid transparent;
+    width: 200px;
+
+}

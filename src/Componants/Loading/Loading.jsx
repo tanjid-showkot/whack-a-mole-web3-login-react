@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './style.scss'
 import Game from '../Game/Game';
 
-const Loading = () => {
+const Loading = (props) => {
+    const connection = props.wallet;
 
     const [user, setuser] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/multi')
+        fetch('https://whack-a-mole-server.vercel.app/multi')
             .then(res => res.json())
             .then(data => {
                 setuser(data)
-                console.log(data)
             }
             );
     }, [user])
@@ -18,7 +18,9 @@ const Loading = () => {
     return (
         <div>
             {
-                user.length > 0 ? <Game></Game> : (
+                user.length > 0 ? <Game
+                    wallet={connection}
+                ></Game> : (
                     (<div className="loading-container">
                         <div className="loading-text">
                             <span>W</span>

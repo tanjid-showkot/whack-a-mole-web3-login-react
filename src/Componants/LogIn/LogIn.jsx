@@ -12,7 +12,7 @@ const LogIn = () => {
     const [user, setuser] = useState([]);
     const WW_URL = "https://web.argent.xyz";
     useEffect(() => {
-        fetch('http://localhost:5000/userdata')
+        fetch('https://whack-a-mole-server.vercel.app/userdata')
             .then(res => res.json())
             .then(data => {
                 setuser(data)
@@ -39,10 +39,11 @@ const LogIn = () => {
                             const user1 = { userid: connection.account.address, score: 0 };
                             localStorage.setItem('userid', JSON.stringify(user1.userid));
 
-                            fetch('http://localhost:5000/userdata', {
+                            fetch('https://whack-a-mole-server.vercel.app/userdata', {
                                 method: 'POST',
                                 headers: {
-                                    'content-type': 'application/json'
+                                    'content-type': 'application/json',
+                                    "Access-Control-Allow-Origin": "*",
                                 },
                                 body: JSON.stringify(user1)
 
@@ -76,6 +77,7 @@ const LogIn = () => {
                 connection && connection.isConnected ?
                     <Menu
                         wallet={connection}
+                        user={user}
                     ></Menu> :
 
                     <button
@@ -95,10 +97,11 @@ const LogIn = () => {
                                         localStorage.setItem('userid', JSON.stringify(user1.userid));
 
 
-                                        fetch('http://localhost:5000/userdata', {
+                                        fetch('https://whack-a-mole-server.vercel.app/userdata', {
                                             method: 'POST',
                                             headers: {
-                                                'content-type': 'application/json'
+                                                'content-type': 'application/json',
+                                                "Access-Control-Allow-Origin": "*",
                                             },
                                             body: JSON.stringify(user1)
 
