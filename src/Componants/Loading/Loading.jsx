@@ -7,7 +7,7 @@ const Loading = (props) => {
 
     const [user, setuser] = useState([]);
     useEffect(() => {
-        fetch('https://whack-a-mole-server.vercel.app/multi')
+        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi')
             .then(res => res.json())
             .then(data => {
                 setuser(data)
@@ -18,7 +18,7 @@ const Loading = (props) => {
     return (
         <div>
             {
-                user.length > 0 ? <Game
+                user.length > 1 ? <Game
                     wallet={connection}
                 ></Game> : (
                     (<div className="loading-container">

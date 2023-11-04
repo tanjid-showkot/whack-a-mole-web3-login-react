@@ -17,7 +17,7 @@ const Menu = (props) => {
         const user = { userid: connection.account.address, score: 0 };
 
 
-        fetch('https://whack-a-mole-server.vercel.app/multi', {
+        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

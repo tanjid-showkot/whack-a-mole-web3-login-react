@@ -29,7 +29,7 @@ const Game = (props) => {
         { id: 8, status: false }
     ]);
     useEffect(() => {
-        fetch('https://whack-a-mole-server.vercel.app/multi')
+        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi')
             .then(res => res.json())
             .then(data => {
                 setuser(data)
@@ -38,7 +38,7 @@ const Game = (props) => {
 
     }, [Score])
     useEffect(() => {
-        fetch('https://whack-a-mole-server.vercel.app/userdata')
+        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata')
             .then(res => res.json())
             .then(data => {
                 setuserid(data)
@@ -79,7 +79,7 @@ const Game = (props) => {
         const findUser = userid.find(element => element.userid === userids)
         if (findUser.score < Score) {
             signMassage();
-            fetch(`https://whack-a-mole-server.vercel.app/userdata/${findUser._id}`, {
+            fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata/${findUser._id}`, {
                 method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',
@@ -134,7 +134,7 @@ const Game = (props) => {
         const findUser = user.find(element => element.userid === userid)
 
 
-        fetch(`https://whack-a-mole-server.vercel.app/multi/${findUser._id}`, {
+        fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
             method: 'DELETE'
         }).then(res => res.json())
             .then(data => {
@@ -149,7 +149,7 @@ const Game = (props) => {
         setScore(Score + 10);
         const userid = JSON.parse(localStorage.getItem('userid'))
         const findUser = user.find(element => element.userid === userid)
-        fetch(`https://whack-a-mole-server.vercel.app/multi/${findUser._id}`, {
+        fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',

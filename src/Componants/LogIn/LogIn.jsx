@@ -12,7 +12,7 @@ const LogIn = () => {
     const [user, setuser] = useState([]);
     const WW_URL = "https://web.argent.xyz";
     useEffect(() => {
-        fetch('https://whack-a-mole-server.vercel.app/userdata')
+        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata')
             .then(res => res.json())
             .then(data => {
                 setuser(data)
@@ -39,7 +39,7 @@ const LogIn = () => {
                             const user1 = { userid: connection.account.address, score: 0 };
                             localStorage.setItem('userid', JSON.stringify(user1.userid));
 
-                            fetch('https://whack-a-mole-server.vercel.app/userdata', {
+                            fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata', {
                                 method: 'POST',
                                 headers: {
                                     'content-type': 'application/json',
@@ -97,7 +97,7 @@ const LogIn = () => {
                                         localStorage.setItem('userid', JSON.stringify(user1.userid));
 
 
-                                        fetch('https://whack-a-mole-server.vercel.app/userdata', {
+                                        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata', {
                                             method: 'POST',
                                             headers: {
                                                 'content-type': 'application/json',
