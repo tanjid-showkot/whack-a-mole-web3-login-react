@@ -18,7 +18,7 @@ const Loading = (props) => {
     return (
         <div>
             {
-                user.length > 2 ? <Game
+                user.length > 4 ? <Game
                     wallet={connection}
                 ></Game> : (
                     (<div className="loading-container">
