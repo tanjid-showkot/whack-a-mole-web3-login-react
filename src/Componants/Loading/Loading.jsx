@@ -13,12 +13,13 @@ const Loading = (props) => {
                 setuser(data)
             }
             );
-    }, [user])
+    }, [])
+    console.log(user)
     document.querySelector('.logo').style.display = 'none';
     return (
         <div>
             {
-                user.length < 4 ? <Game
+                user.length > 2 ? <Game
                     wallet={connection}
                 ></Game> : (
                     (<div className="loading-container">
