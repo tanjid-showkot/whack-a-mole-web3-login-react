@@ -4,6 +4,7 @@ import Game from '../Game/Game';
 
 const Loading = (props) => {
     const connection = props.wallet;
+    const users = props.user;
 
     const [user, setuser] = useState([]);
     useEffect(() => {
@@ -13,14 +14,16 @@ const Loading = (props) => {
                 setuser(data)
             }
             );
-    }, [])
-    console.log(user)
+    }, [user])
+
     document.querySelector('.logo').style.display = 'none';
     return (
         <div>
             {
-                user.length > 2 ? <Game
+                user.length > 0 ? <Game
                     wallet={connection}
+                    user={users}
+                    multi={user}
                 ></Game> : (
                     (<div className="loading-container">
                         <div className="loading-text">

@@ -7,6 +7,9 @@ import './style.css'
 
 const Game = (props) => {
     const connection = props.wallet;
+    const users = props.user;
+    const multi = props.multi;
+
     const [play] = useSound(sound);
 
     let timeLeft = 30;
@@ -42,7 +45,6 @@ const Game = (props) => {
             .then(res => res.json())
             .then(data => {
                 setuserid(data)
-                console.log(userid)
             });
 
     }, [])
@@ -78,7 +80,7 @@ const Game = (props) => {
             setTimer(timeLeft--);
             if (timeLeft === 0) {
                 clearInterval(interval);
-                setTimer('Time Out');
+                setTimer(0);
                 document.querySelector('.board').style.display = 'none';
                 document.querySelector('.box').style.display = 'none';
                 document.querySelector('.user').style.display = 'none';
@@ -86,18 +88,19 @@ const Game = (props) => {
                 document.querySelector('.finalScore').style.display = 'block';
                 document.querySelector('.restartBtn').style.display = 'block';
                 document.querySelector('.cursor').style.display = 'none';
-                const userid = JSON.parse(localStorage.getItem('userid'))
-                const findUser = user.find(element => element.userid === userid)
-                fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
-                    method: 'DELETE'
-                }).then(res => res.json())
-                    .then(data => {
-                        console.log(data)
-                    });
 
-                if (findUser.score < Score) {
+                const localUser = JSON.parse(localStorage.getItem('userid'))
+
+                const findUser = multi.find(element => element.userid === localUser)
+                const userFrommain = users.find(element => element.userid === localUser)
+                console.log(userFrommain.score)
+                console.log(Score)
+
+
+                if (Score > userFrommain.score) {
+                    console.log('you lose')
                     signMassage();
-                    fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata/${findUser._id}`, {
+                    fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata/${userFrommain._id}`, {
                         method: 'PATCH',
                         headers: {
                             'content-type': 'application/json',
@@ -110,6 +113,12 @@ const Game = (props) => {
                             console.log(data)
                         });
                 }
+                fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
+                    method: 'DELETE'
+                }).then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                    });
 
 
             }
@@ -128,9 +137,9 @@ const Game = (props) => {
     }
 
     const userscore = () => {
-        setScore(Score + 10); 0
-        const userid = JSON.parse(localStorage.getItem('userid'))
-        const findUser = user.find(element => element.userid === userid)
+        setScore(Score + 10);
+        const localuser = JSON.parse(localStorage.getItem('userid'))
+        const findUser = user.find(element => element.userid === localuser)
         fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
             method: 'PATCH',
             headers: {

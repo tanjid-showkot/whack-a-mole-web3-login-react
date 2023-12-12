@@ -11,7 +11,7 @@ const Menu = (props) => {
     const connection = props.wallet;
     const user = props.user;
     const [game, setGame] = useState(false);
-    const [existMulti, setExistMulti] = useState();
+    const [existMulti, setExistMulti] = useState([]);
     const [leaderboard, setLeaderboard] = useState(false);
     const [aboutUs, setAboutus] = useState(false);
     useEffect(() => {
@@ -73,6 +73,7 @@ const Menu = (props) => {
             {
                 game ? <Loading
                     wallet={connection}
+                    user={user}
                 ></Loading> : leaderboard ? <LeaderBoard
                     wallet={connection}
                     user={user}

@@ -31,29 +31,31 @@ const LogIn = () => {
 
                 if (connection && connection.isConnected) {
                     setConnection(connection);
-                    user.forEach(element => {
-                        if (element.userid === connection.account.address) {
-                            console.log('user already exist')
-                        }
-                        else {
-                            const user1 = { userid: connection.account.address, score: 0 };
-                            localStorage.setItem('userid', JSON.stringify(user1.userid));
+                    console.log(connection.account.address)
 
-                            fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata', {
-                                method: 'POST',
-                                headers: {
-                                    'content-type': 'application/json',
-                                    "Access-Control-Allow-Origin": "*",
-                                },
-                                body: JSON.stringify(user1)
+                    const value = user.find((item) => item.userid === connection.account.address)
+                    console.log(value)
+                    if (value === undefined) {
+                        const user1 = { userid: connection.account.address, score: 0 };
+                        localStorage.setItem('userid', JSON.stringify(user1.userid));
 
-                            }).then(res => res.json())
-                                .then(data => {
-                                    console.log(data)
-                                });
-                        }
+                        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata', {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json',
+                                "Access-Control-Allow-Origin": "*",
+                            },
+                            body: JSON.stringify(user1)
 
-                    });
+                        }).then(res => res.json())
+                            .then(data => {
+                                console.log(data)
+                            });
+                    }
+                    else {
+                        console.log('user already exist')
+                    }
+
 
                 }
             }
@@ -88,30 +90,32 @@ const LogIn = () => {
 
                             if (connection && connection.isConnected) {
                                 setConnection(connection);
-                                user.forEach(element => {
-                                    if (element.userid === connection.account.address) {
-                                        console.log('user already exist')
-                                    }
-                                    else {
-                                        const user1 = { userid: connection.account.address, score: 0 };
-                                        localStorage.setItem('userid', JSON.stringify(user1.userid));
+
+                                const value = user.find((item) => item.userid === connection.account.address)
+                                console.log(value)
+                                if (value === undefined) {
+                                    const user1 = { userid: connection.account.address, score: 0 };
+                                    localStorage.setItem('userid', JSON.stringify(user1.userid));
 
 
-                                        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata', {
-                                            method: 'POST',
-                                            headers: {
-                                                'content-type': 'application/json',
-                                                "Access-Control-Allow-Origin": "*",
-                                            },
-                                            body: JSON.stringify(user1)
+                                    fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata', {
+                                        method: 'POST',
+                                        headers: {
+                                            'content-type': 'application/json',
+                                            "Access-Control-Allow-Origin": "*",
+                                        },
+                                        body: JSON.stringify(user1)
 
-                                        }).then(res => res.json())
-                                            .then(data => {
-                                                console.log(data)
-                                            });
-                                    }
+                                    }).then(res => res.json())
+                                        .then(data => {
+                                            console.log(data)
+                                        });
+                                }
+                                else {
+                                    console.log('user already exist')
+                                }
 
-                                });
+
 
 
 
