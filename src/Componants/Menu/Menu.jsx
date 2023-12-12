@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './menu.css'
 import Game from '../Game/Game';
 import LeaderBoard from '../LeaderBoard/LeaderBoard';
@@ -11,22 +11,42 @@ const Menu = (props) => {
     const connection = props.wallet;
     const user = props.user;
     const [game, setGame] = useState(false);
+    const [existMulti, setExistMulti] = useState();
     const [leaderboard, setLeaderboard] = useState(false);
     const [aboutUs, setAboutus] = useState(false);
+    useEffect(() => {
+        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi')
+            .then(res => res.json())
+            .then(data => {
+                setExistMulti(data)
+            }
+            );
+    }, [])
+
+
+
+
+
+
     const nevigatetogame = () => {
         const user = { userid: connection.account.address, score: 0 };
+        const value = existMulti.find((item) => item.userid === connection.account.address)
+        if (value === undefined) {
+            fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(user)
+
+            }).then(res => res.json())
+                .then(data => {
+                });
+        }
 
 
-        fetch('https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(user)
 
-        }).then(res => res.json())
-            .then(data => {
-            });
+
 
 
         setGame(true);

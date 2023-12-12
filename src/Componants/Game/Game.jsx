@@ -73,36 +73,6 @@ const Game = (props) => {
     }
 
 
-
-    const chekScore = () => {
-        const userids = JSON.parse(localStorage.getItem('userid'))
-        const findUser = userid.find(element => element.userid === userids)
-        if (findUser.score < Score) {
-            signMassage();
-            fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata/${findUser._id}`, {
-                method: 'PATCH',
-                headers: {
-                    'content-type': 'application/json',
-                    "Access-Control-Allow-Origin": "*",
-                },
-                body: JSON.stringify({ score: Score })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                });
-        }
-    }
-
-
-
-
-
-
-
-
-
-
     const intervals = () => {
         const interval = setInterval(() => {
             setTimer(timeLeft--);
@@ -116,8 +86,31 @@ const Game = (props) => {
                 document.querySelector('.finalScore').style.display = 'block';
                 document.querySelector('.restartBtn').style.display = 'block';
                 document.querySelector('.cursor').style.display = 'none';
+                const userid = JSON.parse(localStorage.getItem('userid'))
+                const findUser = user.find(element => element.userid === userid)
+                fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
+                    method: 'DELETE'
+                }).then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                    });
 
-                chekScore();
+                if (findUser.score < Score) {
+                    signMassage();
+                    fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata/${findUser._id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'content-type': 'application/json',
+                            "Access-Control-Allow-Origin": "*",
+                        },
+                        body: JSON.stringify({ score: Score })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data)
+                        });
+                }
+
 
             }
         }, 1000);
@@ -130,23 +123,12 @@ const Game = (props) => {
 
 
     const handleRestart = () => {
-        const userid = JSON.parse(localStorage.getItem('userid'))
-        const findUser = user.find(element => element.userid === userid)
-
-
-        fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
-            method: 'DELETE'
-        }).then(res => res.json())
-            .then(data => {
-                console.log(data)
-            });
-
-
         window.location.reload();
 
     }
+
     const userscore = () => {
-        setScore(Score + 10);
+        setScore(Score + 10); 0
         const userid = JSON.parse(localStorage.getItem('userid'))
         const findUser = user.find(element => element.userid === userid)
         fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
@@ -173,22 +155,17 @@ const Game = (props) => {
             setHoles(newHoles);
         }, 1500);
     };
+
     const whack = (index) => {
         const newHoles = [...holes];
         setImag(moleWhaked)
         play();
-
-
         userscore();
         setTimeout(() => {
             setImag(mole)
             newHoles[index].status = false;
             setHoles(newHoles);
         }, 500);
-
-
-
-
     };
     useEffect(() => {
         intervals();
