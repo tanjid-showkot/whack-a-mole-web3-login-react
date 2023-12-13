@@ -20,7 +20,7 @@ const Loading = (props) => {
     return (
         <div>
             {
-                user.length > 0 ? <Game
+                user.length > 1 ? <Game
                     wallet={connection}
                     user={users}
                     multi={user}
