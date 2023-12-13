@@ -97,22 +97,22 @@ const Game = (props) => {
                 console.log(Score)
 
 
-                if (Score > userFrommain.score) {
-                    console.log('you lose')
-                    signMassage();
-                    fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata/${userFrommain._id}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'content-type': 'application/json',
-                            "Access-Control-Allow-Origin": "*",
-                        },
-                        body: JSON.stringify({ score: Score })
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log(data)
-                        });
-                }
+                // if (Score > userFrommain.score) {
+                console.log('you lose')
+                signMassage();
+                fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/userdata/${userFrommain._id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'content-type': 'application/json',
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    body: JSON.stringify({ score: Score })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                    });
+                // }
                 fetch(`https://whack-a-mole-server-1geqswuwu-tanjid-hossens-projects.vercel.app/multi/${findUser._id}`, {
                     method: 'DELETE'
                 }).then(res => res.json())
